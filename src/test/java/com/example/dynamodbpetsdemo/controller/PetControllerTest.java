@@ -146,10 +146,12 @@ class PetControllerTest {
             Pet updatedPet = new Pet(id, "Lucy", 7);
             //when
             when(petServiceMock.updatePetInfo(id, pet)).thenReturn(updatedPet);
+            when(petServiceMock.findPetById(id)).thenReturn(pet);
             Pet returnedPet = petController.update(id, pet).getBody();
             //then
             //Check to see if the updated pet is returned
             assertEquals(updatedPet, returnedPet);
+
             verify(petServiceMock).updatePetInfo("abc123", pet);
         }
 
