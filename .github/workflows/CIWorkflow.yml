@@ -5,23 +5,23 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: CI
-on:
-  push:
+name: CI # name of the workflow
+on: # a list of events that trigger the workflow
+  push: # push event
+    branches: [master] # a push event to the master branch triggers the workflow
+  pull_request: # pull request event
     branches: [master]
-  pull_request:
-    branches: [master]
-jobs:
-  test:
-    runs-on: ubuntu-latest
+jobs: # lists the jobs to run
+  test: # name of the job
+    runs-on: ubuntu-latest # specifies the GitHub action runner(the VM) type to use
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2 # checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it.
       - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
+        uses: actions/setup-java@v2 # Downloads and sets up the requested version of java.
+        with: # passes input parameters to the action
           java-version: 11
           distribution: 'adopt'
-          cache: gradle
+          cache: gradle # enables gradle caching. Caches dependencies managed by Gradle
       - name: Run PetService tests
         run: ./gradlew :test --tests "com.example.dynamodbpetsdemo.service.PetServiceTest"
       - name: Run PetController tests
